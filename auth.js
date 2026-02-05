@@ -6,7 +6,14 @@ import { auth, db } from './firebase-config.js';
 export async function checkAdminStatus(userId) {
     try {
         const userDoc = await getDoc(doc(db, 'admins', userId));
-        return userDoc.exists() && userDoc.data().isAdmin === true;
+        console.log('Admin document exists:', userDoc.exists());
+        if (userDoc.exists()) {
+            const data = userDoc.data();
+            console.log('Admin document data:', data);
+            console.log('isAdmin value:', data.isAdmin, 'Type:', typeof data.isAdmin);
+            return data.isAdmin === true;
+        }
+        return false;
     } catch (error) {
         console.error('Error checking admin status:', error);
         return false;
@@ -17,16 +24,25 @@ export async function checkAdminStatus(userId) {
 export async function login(email, password) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log('Login successful, checking admin status for:', userCredential.user.uid);
+        
         const isAdmin = await checkAdminStatus(userCredential.user.uid);
+        console.log('Admin status:', isAdmin);
         
         if (!isAdmin) {
             await signOut(auth);
-            throw new Error('ليس لديك صلاحية للوصول إلى لوحة التحكم');
+            throw new Error('ليس لديك صلاحية للوصول إلى لوحة التحكم. تأكد من إضافة حسابك في مجموعة admins في Firestore.');
         }
         
         return userCredential.user;
     } catch (error) {
-        throw error;
+        console.error('Login error:', error);
+        // Preserve original error message if it exists
+        if (error.message) {
+            throw error;
+        }
+        // Otherwise create a user-friendly message
+        throw new Error('حدث خطأ أثناء تسجيل الدخول. تحقق من البريد وكلمة المرور.');
     }
 }
 

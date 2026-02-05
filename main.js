@@ -72,16 +72,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // Login form
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
+        const emailInput = document.getElementById('loginEmail');
+        const passwordInput = document.getElementById('loginPassword');
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        
+        // Show loading state
+        const submitBtn = loginForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i>جاري تسجيل الدخول...';
+        loginError.classList.add('hidden');
         
         try {
             const { login } = await import('./auth.js');
             await login(email, password);
+            // Success - form will be reset by showDashboard
             loginError.classList.add('hidden');
         } catch (error) {
-            loginError.textContent = error.message || 'حدث خطأ أثناء تسجيل الدخول';
+            // Don't reset form on error - keep email and password
+            let errorMessage = 'حدث خطأ أثناء تسجيل الدخول';
+            
+            if (error.code === 'auth/user-not-found') {
+                errorMessage = 'البريد الإلكتروني غير مسجل';
+            } else if (error.code === 'auth/wrong-password') {
+                errorMessage = 'كلمة المرور غير صحيحة';
+            } else if (error.code === 'auth/invalid-email') {
+                errorMessage = 'البريد الإلكتروني غير صحيح';
+            } else if (error.code === 'auth/too-many-requests') {
+                errorMessage = 'تم تجاوز عدد المحاولات. حاول مرة أخرى لاحقاً';
+            } else if (error.message) {
+                errorMessage = error.message;
+            } else if (error.code) {
+                errorMessage = `خطأ: ${error.code}`;
+            }
+            
+            loginError.textContent = errorMessage;
             loginError.classList.remove('hidden');
+            
+            // Restore button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
         }
     });
 
@@ -105,13 +136,15 @@ document.addEventListener('DOMContentLoaded', () => {
 function showLogin() {
     loginPage.classList.remove('hidden');
     dashboardPage.classList.add('hidden');
-    loginForm.reset();
+    // Don't reset form automatically - only reset on successful login
 }
 
 // Show dashboard
 function showDashboard() {
     loginPage.classList.add('hidden');
     dashboardPage.classList.remove('hidden');
+    loginForm.reset(); // Reset form only on successful login
+    loginError.classList.add('hidden');
     navigateToPage('dashboard');
 }
 

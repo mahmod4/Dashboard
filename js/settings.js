@@ -52,13 +52,13 @@ export async function loadSettings() {
                     <h2 class="text-2xl font-bold mb-4">إعدادات الشحن</h2>
                     <form id="shippingSettingsForm" onsubmit="saveShippingSettings(event)">
                         <div class="form-group">
-                            <label>تكلفة الشحن الأساسية (ر.س)</label>
+                            <label>تكلفة الشحن الأساسية (ج.م)</label>
                             <input type="number" id="shippingBaseCost" step="0.01" 
                                    value="${settings.shippingBaseCost || 0}" min="0">
                         </div>
 
                         <div class="form-group">
-                            <label>الشحن المجاني عند الشراء بقيمة (ر.س)</label>
+                            <label>الشحن المجاني عند الشراء بقيمة (ج.م)</label>
                             <input type="number" id="shippingFreeThreshold" step="0.01" 
                                    value="${settings.shippingFreeThreshold || 0}" min="0">
                             <small class="text-gray-500">اتركه 0 لإلغاء الشحن المجاني</small>

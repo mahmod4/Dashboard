@@ -130,7 +130,7 @@ window.viewUserDetails = async function(userId) {
                                         <p class="text-sm text-gray-500">${order.createdAt?.toDate().toLocaleDateString('ar-SA') || ''}</p>
                                     </div>
                                     <div class="text-left">
-                                        <p class="font-bold">${order.total?.toFixed(2) || 0} ر.س</p>
+                                        <p class="font-bold">${order.total?.toFixed(2) || 0} ج.م</p>
                                         <span class="badge badge-${getOrderStatusColor(order.status)}">${getOrderStatusText(order.status)}</span>
                                     </div>
                                 </div>

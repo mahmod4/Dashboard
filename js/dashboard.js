@@ -12,11 +12,11 @@ export async function loadDashboard() {
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                 <div class="stats-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                     <h3><i class="fas fa-dollar-sign ml-2"></i>مبيعات اليوم</h3>
-                    <div class="value">${stats.todaySales.toFixed(2)} ر.س</div>
+                    <div class="value">${stats.todaySales.toFixed(2)} ج.م</div>
                 </div>
                 <div class="stats-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
                     <h3><i class="fas fa-calendar ml-2"></i>مبيعات الشهر</h3>
-                    <div class="value">${stats.monthSales.toFixed(2)} ر.س</div>
+                    <div class="value">${stats.monthSales.toFixed(2)} ج.م</div>
                 </div>
                 <div class="stats-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
                     <h3><i class="fas fa-shopping-cart ml-2"></i>عدد الطلبات</h3>
@@ -41,7 +41,7 @@ export async function loadDashboard() {
                                         <p class="text-sm text-gray-500">${product.sales} عملية بيع</p>
                                     </div>
                                 </div>
-                                <span class="text-green-600 font-bold">${product.revenue.toFixed(2)} ر.س</span>
+                                <span class="text-green-600 font-bold">${product.revenue.toFixed(2)} ج.م</span>
                             </div>
                         `).join('')}
                     </div>
@@ -57,7 +57,7 @@ export async function loadDashboard() {
                                     <p class="text-sm text-gray-500">${order.date}</p>
                                 </div>
                                 <div class="text-left">
-                                    <p class="font-bold text-green-600">${order.total.toFixed(2)} ر.س</p>
+                                    <p class="font-bold text-green-600">${order.total.toFixed(2)} ج.م</p>
                                     <span class="badge badge-${getStatusColor(order.status)}">${getStatusText(order.status)}</span>
                                 </div>
                             </div>

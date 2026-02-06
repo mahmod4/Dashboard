@@ -17,10 +17,10 @@ export async function loadLoyalty() {
                             <label>نسبة النقاط لكل عملية شراء (%)</label>
                             <input type="number" id="pointsPercentage" step="0.01" min="0" max="100" 
                                    value="${settings.pointsPercentage || 1}" required>
-                            <small class="text-gray-500">مثال: 1% يعني 1 نقطة لكل 100 ر.س</small>
+                            <small class="text-gray-500">مثال: 1% يعني 1 نقطة لكل 100 ج.م</small>
                         </div>
                         <div class="form-group">
-                            <label>قيمة النقطة (ر.س)</label>
+                            <label>قيمة النقطة (ج.م)</label>
                             <input type="number" id="pointValue" step="0.01" min="0" 
                                    value="${settings.pointValue || 0.1}" required>
                             <small class="text-gray-500">قيمة كل نقطة عند تحويلها لكوبون</small>
@@ -45,7 +45,7 @@ export async function loadLoyalty() {
                                     <th>المستخدم</th>
                                     <th>البريد الإلكتروني</th>
                                     <th>رصيد النقاط</th>
-                                    <th>قيمة النقاط (ر.س)</th>
+                                    <th>قيمة النقاط (ج.م)</th>
                                     <th>الإجراءات</th>
                                 </tr>
                             </thead>
@@ -55,7 +55,7 @@ export async function loadLoyalty() {
                                         <td>${user.name || 'غير محدد'}</td>
                                         <td>${user.email || 'غير محدد'}</td>
                                         <td><strong class="text-blue-600">${user.points || 0}</strong></td>
-                                        <td>${((user.points || 0) * (settings.pointValue || 0.1)).toFixed(2)} ر.س</td>
+                                        <td>${((user.points || 0) * (settings.pointValue || 0.1)).toFixed(2)} ج.م</td>
                                         <td>
                                             <button onclick="viewPointsHistory('${user.id}')" 
                                                     class="btn-primary text-sm py-1 px-3">

@@ -45,7 +45,7 @@ export async function loadPayments() {
                                     <td>#${payment.id.substring(0, 8)}</td>
                                     <td>${payment.customerName || 'غير محدد'}</td>
                                     <td>${payment.orderId ? '#' + payment.orderId.substring(0, 8) : '-'}</td>
-                                    <td>${payment.amount?.toFixed(2) || 0} ر.س</td>
+                                    <td>${payment.amount?.toFixed(2) || 0} ج.م</td>
                                     <td>${getPaymentMethodText(payment.method)}</td>
                                     <td>
                                         <span class="badge badge-${getPaymentStatusColor(payment.status)}">
@@ -147,7 +147,7 @@ window.filterPayments = async function() {
             <td>#${payment.id.substring(0, 8)}</td>
             <td>${payment.customerName || 'غير محدد'}</td>
             <td>${payment.orderId ? '#' + payment.orderId.substring(0, 8) : '-'}</td>
-            <td>${payment.amount?.toFixed(2) || 0} ر.س</td>
+            <td>${payment.amount?.toFixed(2) || 0} ج.م</td>
             <td>${getPaymentMethodText(payment.method)}</td>
             <td>
                 <span class="badge badge-${getPaymentStatusColor(payment.status)}">
@@ -194,7 +194,7 @@ window.viewPaymentDetails = async function(paymentId) {
                         </div>
                         <div>
                             <p class="text-gray-600">المبلغ:</p>
-                            <p class="font-bold text-green-600 text-lg">${payment.amount?.toFixed(2) || 0} ر.س</p>
+                            <p class="font-bold text-green-600 text-lg">${payment.amount?.toFixed(2) || 0} ج.م</p>
                         </div>
                         <div>
                             <p class="text-gray-600">طريقة الدفع:</p>

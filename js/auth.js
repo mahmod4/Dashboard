@@ -31,7 +31,36 @@ export async function login(email, password) {
         
         if (!isAdmin) {
             await signOut(auth);
-            throw new Error('ليس لديك صلاحية للوصول إلى لوحة التحكم. تأكد من إضافة حسابك في مجموعة admins في Firestore.');
+            
+            // رسالة خطأ مفصلة
+            const userDoc = await getDoc(doc(db, 'admins', userCredential.user.uid));
+            let errorMessage = 'ليس لديك صلاحية للوصول إلى لوحة التحكم.\n\n';
+            
+            if (!userDoc.exists()) {
+                errorMessage += `❌ المستند غير موجود في Firestore.\n\n`;
+                errorMessage += `📋 خطوات الحل:\n`;
+                errorMessage += `1. اذهب إلى Firestore Database\n`;
+                errorMessage += `2. أنشئ Collection: admins\n`;
+                errorMessage += `3. Document ID: ${userCredential.user.uid}\n`;
+                errorMessage += `4. أضف Field: isAdmin (boolean) = true\n\n`;
+                errorMessage += `User UID: ${userCredential.user.uid}`;
+            } else {
+                const data = userDoc.data();
+                errorMessage += `⚠️ المستند موجود لكن:\n\n`;
+                if (data.isAdmin === undefined) {
+                    errorMessage += `❌ الحقل isAdmin غير موجود\n`;
+                } else if (typeof data.isAdmin !== 'boolean') {
+                    errorMessage += `❌ الحقل isAdmin من نوع ${typeof data.isAdmin} (يجب أن يكون boolean)\n`;
+                    errorMessage += `القيمة الحالية: ${data.isAdmin}\n\n`;
+                } else if (data.isAdmin === false) {
+                    errorMessage += `❌ الحقل isAdmin = false (يجب أن يكون true)\n`;
+                } else {
+                    errorMessage += `❌ سبب غير معروف. تحقق من Console للمزيد من التفاصيل.`;
+                }
+                errorMessage += `\n\nUser UID: ${userCredential.user.uid}`;
+            }
+            
+            throw new Error(errorMessage);
         }
         
         return userCredential.user;

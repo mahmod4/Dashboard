@@ -90,7 +90,7 @@ window.generateReport = async function() {
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="stats-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                     <h3>إجمالي المبيعات</h3>
-                    <div class="value">${totalSales.toFixed(2)} ر.س</div>
+                    <div class="value">${totalSales.toFixed(2)} ج.م</div>
                 </div>
                 <div class="stats-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
                     <h3>عدد الطلبات</h3>
@@ -102,7 +102,7 @@ window.generateReport = async function() {
                 </div>
                 <div class="stats-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
                     <h3>متوسط قيمة الطلب</h3>
-                    <div class="value">${totalOrders > 0 ? (totalSales / totalOrders).toFixed(2) : 0} ر.س</div>
+                    <div class="value">${totalOrders > 0 ? (totalSales / totalOrders).toFixed(2) : 0} ج.م</div>
                 </div>
             </div>
 
@@ -134,7 +134,7 @@ window.generateReport = async function() {
                                         <p class="text-sm text-gray-500">${product.quantity} قطعة</p>
                                     </div>
                                 </div>
-                                <span class="text-green-600 font-bold">${product.revenue.toFixed(2)} ر.س</span>
+                                <span class="text-green-600 font-bold">${product.revenue.toFixed(2)} ج.م</span>
                             </div>
                         `).join('')}
                     </div>
@@ -170,7 +170,7 @@ window.generateReport = async function() {
                                     <td>#${order.id.substring(0, 8)}</td>
                                     <td>${order.createdAt?.toDate().toLocaleDateString('ar-SA') || 'غير محدد'}</td>
                                     <td>${order.customerName || order.userName || 'غير محدد'}</td>
-                                    <td>${order.total?.toFixed(2) || 0} ر.س</td>
+                                    <td>${order.total?.toFixed(2) || 0} ج.م</td>
                                     <td>
                                         <span class="badge badge-${getOrderStatusColor(order.status)}">
                                             ${getOrderStatusText(order.status)}
@@ -238,7 +238,7 @@ function createDailySalesChart(dailySales) {
         data: {
             labels: dates,
             datasets: [{
-                label: 'المبيعات (ر.س)',
+                label: 'المبيعات (ج.م)',
                 data: sales,
                 borderColor: 'rgb(66, 153, 225)',
                 backgroundColor: 'rgba(66, 153, 225, 0.1)',

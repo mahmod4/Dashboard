@@ -48,8 +48,8 @@ export async function loadProducts() {
                                     </td>
                                     <td>${product.name}</td>
                                     <td>${product.category || 'غير محدد'}</td>
-                                    <td>${product.price?.toFixed(2) || 0} ر.س</td>
-                                    <td>${product.discountPrice ? product.discountPrice.toFixed(2) + ' ر.س' : '-'}</td>
+                                    <td>${product.price?.toFixed(2) || 0} ج.م</td>
+                                    <td>${product.discountPrice ? product.discountPrice.toFixed(2) + ' ج.م' : '-'}</td>
                                     <td>${product.stock || 0}</td>
                                     <td>
                                         <span class="badge badge-${product.available ? 'success' : 'danger'}">
@@ -165,12 +165,12 @@ export async function loadProducts() {
 
                         <div class="grid grid-cols-2 gap-4">
                             <div class="form-group">
-                                <label>السعر (ر.س) *</label>
+                                <label>السعر (ج.م) *</label>
                                 <input type="number" id="productPrice" step="0.01" required>
                             </div>
 
                             <div class="form-group">
-                                <label>السعر بعد الخصم (ر.س)</label>
+                                <label>السعر بعد الخصم (ج.م)</label>
                                 <input type="number" id="productDiscountPrice" step="0.01">
                             </div>
                         </div>

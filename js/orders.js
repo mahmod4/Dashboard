@@ -44,7 +44,7 @@ export async function loadOrders() {
                                     <td>#${order.id.substring(0, 8)}</td>
                                     <td>${order.customerName || 'غير محدد'}</td>
                                     <td>${order.date}</td>
-                                    <td>${order.total?.toFixed(2) || 0} ر.س</td>
+                                    <td>${order.total?.toFixed(2) || 0} ج.م</td>
                                     <td>
                                         <select onchange="updateOrderStatus('${order.id}', this.value)" 
                                                 class="px-3 py-1 border rounded-lg">
@@ -116,7 +116,7 @@ window.filterOrders = async function() {
             <td>#${order.id.substring(0, 8)}</td>
             <td>${order.customerName || 'غير محدد'}</td>
             <td>${order.date}</td>
-            <td>${order.total?.toFixed(2) || 0} ر.س</td>
+            <td>${order.total?.toFixed(2) || 0} ج.م</td>
             <td>
                 <select onchange="updateOrderStatus('${order.id}', this.value)" 
                         class="px-3 py-1 border rounded-lg">
@@ -195,7 +195,7 @@ window.viewOrderDetails = async function(orderId) {
                             ${(order.items || []).map(item => `
                                 <div class="flex justify-between p-2 bg-gray-50 rounded">
                                     <span>${item.name} x ${item.quantity}</span>
-                                    <span>${(item.price * item.quantity).toFixed(2)} ر.س</span>
+                                    <span>${(item.price * item.quantity).toFixed(2)} ج.م</span>
                                 </div>
                             `).join('')}
                         </div>
@@ -204,7 +204,7 @@ window.viewOrderDetails = async function(orderId) {
                     <div class="border-t pt-4">
                         <div class="flex justify-between text-lg font-bold">
                             <span>المجموع:</span>
-                            <span>${order.total?.toFixed(2) || 0} ر.س</span>
+                            <span>${order.total?.toFixed(2) || 0} ج.م</span>
                         </div>
                     </div>
                     
@@ -276,14 +276,14 @@ window.printInvoice = async function(orderId) {
                                 <tr>
                                     <td>${item.name}</td>
                                     <td>${item.quantity}</td>
-                                    <td>${item.price.toFixed(2)} ر.س</td>
-                                    <td>${(item.price * item.quantity).toFixed(2)} ر.س</td>
+                                    <td>${item.price.toFixed(2)} ج.م</td>
+                                    <td>${(item.price * item.quantity).toFixed(2)} ج.م</td>
                                 </tr>
                             `).join('')}
                         </tbody>
                     </table>
                     <div class="total">
-                        <p>المجموع الكلي: ${order.total?.toFixed(2) || 0} ر.س</p>
+                        <p>المجموع الكلي: ${order.total?.toFixed(2) || 0} ج.م</p>
                     </div>
                 </body>
                 </html>

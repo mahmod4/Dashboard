@@ -30,7 +30,7 @@ export async function loadOffers() {
                         <p class="text-gray-600 mb-4">${offer.description || ''}</p>
                         <div class="space-y-2 mb-4">
                             <p><strong>نوع الخصم:</strong> ${offer.discountType === 'percentage' ? 'نسبة مئوية' : 'مبلغ ثابت'}</p>
-                            <p><strong>قيمة الخصم:</strong> ${offer.discountValue}${offer.discountType === 'percentage' ? '%' : ' ر.س'}</p>
+                            <p><strong>قيمة الخصم:</strong> ${offer.discountValue}${offer.discountType === 'percentage' ? '%' : ' ج.م'}</p>
                             <p><strong>من:</strong> ${offer.startDate?.toDate().toLocaleDateString('ar-SA') || 'غير محدد'}</p>
                             <p><strong>إلى:</strong> ${offer.endDate?.toDate().toLocaleDateString('ar-SA') || 'غير محدد'}</p>
                             ${offer.products && offer.products.length > 0 ? 
@@ -74,7 +74,7 @@ export async function loadOffers() {
                                 <label>نوع الخصم *</label>
                                 <select id="offerDiscountType" required onchange="toggleDiscountType()">
                                     <option value="percentage">نسبة مئوية (%)</option>
-                                    <option value="fixed">مبلغ ثابت (ر.س)</option>
+                                    <option value="fixed">مبلغ ثابت (ج.م)</option>
                                 </select>
                             </div>
 
@@ -180,7 +180,7 @@ window.toggleDiscountType = function() {
         valueInput.placeholder = '0-100';
     } else {
         valueInput.max = null;
-        valueInput.placeholder = 'المبلغ بالريال';
+        valueInput.placeholder = 'المبلغ بالجنيه';
     }
 }
 

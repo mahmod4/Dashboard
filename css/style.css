@@ -230,3 +230,189 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    /* Sidebar for mobile */
+    .sidebar {
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    /* Main content */
+    .main-content {
+        margin-right: 0 !important;
+        padding: 1rem !important;
+    }
+    
+    /* Cards */
+    .card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    /* Tables */
+    .table {
+        font-size: 12px;
+    }
+    
+    .table th,
+    .table td {
+        padding: 8px 4px;
+    }
+    
+    /* Stats cards */
+    .stats-card {
+        padding: 15px;
+    }
+    
+    .stats-card .value {
+        font-size: 24px;
+    }
+    
+    /* Modal */
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 20px;
+        max-height: 85vh;
+    }
+    
+    /* Buttons */
+    .btn-primary,
+    .btn-danger,
+    .btn-success {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    
+    /* Form groups */
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    /* Grid adjustments */
+    .grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Navigation items */
+    .nav-item {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    
+    /* Header */
+    .page-header {
+        padding: 15px !important;
+    }
+    
+    .page-header h1 {
+        font-size: 24px !important;
+    }
+}
+
+/* Mobile menu button */
+.mobile-menu-btn {
+    display: none;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1001;
+    background: #4299e1;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+}
+
+/* Better spacing */
+.space-y-3 > * + * {
+    margin-top: 0.75rem;
+}
+
+.space-y-4 > * + * {
+    margin-top: 1rem;
+}
+
+.space-y-6 > * + * {
+    margin-top: 1.5rem;
+}
+
+/* Touch friendly */
+@media (max-width: 768px) {
+    button,
+    .btn-primary,
+    .btn-danger,
+    .btn-success,
+    a {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Better text sizing */
+    body {
+        font-size: 14px;
+    }
+    
+    h1, h2, h3 {
+        font-size: 1.2em;
+    }
+    
+    /* Login page mobile */
+    #loginPage .bg-white {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    /* Sidebar overlay */
+    .sidebar::before {
+        content: '';
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: -1;
+    }
+    
+    .sidebar.open::before {
+        z-index: 49;
+    }
+    
+    /* Table scroll on mobile */
+    .overflow-x-auto {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Better spacing for mobile */
+    .p-8 {
+        padding: 1rem;
+    }
+    
+    .mb-6 {
+        margin-bottom: 1rem;
+    }
+    
+    .gap-6 {
+        gap: 1rem;
+    }
+    
+    /* Stats cards mobile */
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+}
+

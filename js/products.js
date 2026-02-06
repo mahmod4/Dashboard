@@ -635,14 +635,28 @@ window.saveProduct = async function(event) {
             }
         }
         
+        // Get category name for store compatibility
+        let categoryName = '';
+        if (categoryId) {
+            try {
+                const categoryDoc = await getDoc(doc(db, 'categories', categoryId));
+                if (categoryDoc.exists()) {
+                    categoryName = categoryDoc.data().name;
+                }
+            } catch (error) {
+                console.error('Error getting category name:', error);
+            }
+        }
+        
         const productData = {
             name,
-            description,
+            description: description || '',
             price,
-            discountPrice,
-            categoryId,
-            stock,
-            available,
+            discountPrice: discountPrice || null,
+            categoryId: categoryId || null,
+            category: categoryName || '', // For store compatibility (string)
+            stock: stock || 0,
+            available: available !== undefined ? available : true,
             image: imageUrl,
             imagePath: imagePath,
             updatedAt: new Date()

@@ -260,6 +260,33 @@ window.saveOffer = async function(event) {
         .filter(value => value !== '');
     
     try {
+        // تجهيز بيانات خاصة بعرض المتجر (العروض اليومية)
+        let type = 'general';
+        let image = null;
+        let basePrice = null;
+        let hasWeightOptions = false;
+
+        // إذا تم ربط العرض بمنتج واحد على الأقل، نستخدم أول منتج لعرضه في المتجر
+        if (selectedProducts.length > 0) {
+            try {
+                const firstProductDoc = await getDoc(doc(db, 'products', selectedProducts[0]));
+                if (firstProductDoc.exists()) {
+                    const p = firstProductDoc.data();
+                    image = p.image || null;
+                    // نستخدم سعر الخصم إن وجد، وإلا السعر الأساسي
+                    const priceNumber = (typeof p.discountPrice === 'number' && p.discountPrice > 0)
+                        ? p.discountPrice
+                        : p.price;
+                    basePrice = typeof priceNumber === 'number' ? priceNumber : null;
+                    hasWeightOptions = !!(p.hasWeightOptions || p.weight);
+                    // هذا العرض سيُعرض في المتجر ضمن العروض اليومية
+                    type = 'daily';
+                }
+            } catch (e) {
+                console.error('Error getting product for offer (store compatibility):', e);
+            }
+        }
+
         const offerData = {
             name,
             description,
@@ -270,6 +297,11 @@ window.saveOffer = async function(event) {
             couponCode: couponCode || null,
             products: selectedProducts.length > 0 ? selectedProducts : null,
             active,
+            // حقول إضافية لعرض العروض في المتجر (الخديوي)
+            type,                          // 'daily' للعروض اليومية في المتجر، 'general' لغير ذلك
+            image: image || null,          // صورة العرض (من أول منتج مرتبط إن وجد)
+            price: basePrice || null,      // سعر العرض الأساسي (يُستخدم للعرض في كروت العروض اليومية)
+            hasWeightOptions: hasWeightOptions ? '✓' : '', // لتفعيل خيارات الوزن في المتجر
             updatedAt: new Date()
         };
         

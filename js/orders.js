@@ -1,4 +1,4 @@
-import { collection, updateDoc, doc, getDocs, getDoc, query, orderBy, where } from 'https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js';
+import { collection, updateDoc, deleteDoc, doc, getDocs, getDoc, query, orderBy, where } from 'https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js';
 import { db } from './firebase-config.js';
 
 export async function loadOrders() {
@@ -63,6 +63,10 @@ export async function loadOrders() {
                                         <button onclick="printInvoice('${order.id}')" 
                                                 class="btn-success text-sm py-1 px-3">
                                             <i class="fas fa-print"></i> طباعة
+                                        </button>
+                                        <button onclick="deleteOrder('${order.id}')" 
+                                                class="btn-danger text-sm py-1 px-3 ml-2">
+                                            <i class="fas fa-trash"></i> حذف
                                         </button>
                                     </td>
                                 </tr>
@@ -136,6 +140,10 @@ window.filterOrders = async function() {
                         class="btn-success text-sm py-1 px-3">
                     <i class="fas fa-print"></i> طباعة
                 </button>
+                <button onclick="deleteOrder('${order.id}')" 
+                        class="btn-danger text-sm py-1 px-3 ml-2">
+                    <i class="fas fa-trash"></i> حذف
+                </button>
             </td>
         </tr>
     `).join('');
@@ -185,7 +193,14 @@ window.viewOrderDetails = async function(orderId) {
                         </div>
                         <div>
                             <p class="text-gray-600">الحالة:</p>
-                            <p class="font-bold">${statusText[order.status] || order.status}</p>
+                            <select onchange="updateOrderStatus('${order.id}', this.value)" 
+                                    class="mt-1 px-3 py-1 border rounded-lg">
+                                <option value="new" ${order.status === 'new' ? 'selected' : ''}>${statusText['new']}</option>
+                                <option value="preparing" ${order.status === 'preparing' ? 'selected' : ''}>${statusText['preparing']}</option>
+                                <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>${statusText['shipped']}</option>
+                                <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>${statusText['completed']}</option>
+                                <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>${statusText['cancelled']}</option>
+                            </select>
                         </div>
                     </div>
                     
@@ -214,6 +229,12 @@ window.viewOrderDetails = async function(orderId) {
                             <p>${order.shippingAddress}</p>
                         </div>
                     ` : ''}
+                    <div class="flex justify-end space-x-3 space-x-reverse mt-6">
+                        <button onclick="deleteOrder('${order.id}')" 
+                                class="btn-danger">
+                            <i class="fas fa-trash ml-2"></i> حذف الطلب
+                        </button>
+                    </div>
                 </div>
             `;
             
@@ -294,6 +315,37 @@ window.printInvoice = async function(orderId) {
     } catch (error) {
         console.error('Error printing invoice:', error);
         alert('حدث خطأ أثناء طباعة الفاتورة');
+    }
+}
+
+window.deleteOrder = async function(orderId) {
+    if (!confirm('هل أنت متأكد من حذف هذا الطلب؟ لا يمكن التراجع عن هذه العملية.')) {
+        return;
+    }
+    
+    try {
+        await deleteDoc(doc(db, 'orders', orderId));
+        alert('تم حذف الطلب بنجاح');
+        // إعادة تحميل قائمة الطلبات مع الحفاظ على الفلتر الحالي إن وجد
+        const statusFilter = document.getElementById('statusFilter');
+        if (statusFilter) {
+            const currentStatus = statusFilter.value;
+            if (currentStatus) {
+                window.filterOrders();
+            } else {
+                loadOrders();
+            }
+        } else {
+            loadOrders();
+        }
+        // إغلاق مودال التفاصيل إن كان مفتوحاً
+        const modal = document.getElementById('orderDetailsModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error deleting order:', error);
+        alert('حدث خطأ أثناء حذف الطلب');
     }
 }
 

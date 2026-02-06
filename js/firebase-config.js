@@ -23,12 +23,20 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 
 // Initialize Analytics (optional - only in browser environment)
+// تم تعطيل Analytics مؤقتاً لتجنب أخطاء 403 PERMISSION_DENIED
+// لتفعيله: تأكد من تفعيل Google Analytics في Firebase Console
 let analytics = null;
 if (typeof window !== 'undefined') {
     try {
-        analytics = getAnalytics(app);
+        // تحقق من وجود measurementId قبل تهيئة Analytics
+        if (firebaseConfig.measurementId) {
+            analytics = getAnalytics(app);
+        } else {
+            console.log('Analytics skipped: measurementId not found');
+        }
     } catch (error) {
-        console.log('Analytics initialization skipped:', error);
+        console.log('Analytics initialization skipped:', error.message);
+        // لا نرمي الخطأ - Analytics اختياري
     }
 }
 export { analytics };

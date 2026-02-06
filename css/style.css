@@ -230,12 +230,50 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+/* Sidebar Base Styles */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    box-sizing: border-box;
+}
+
+.sidebar nav {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 10px;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #2d3748;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #4a5568;
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #718096;
+}
+
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
     /* Sidebar for mobile */
     .sidebar {
         transform: translateX(100%);
         transition: transform 0.3s ease;
+        width: 280px;
     }
     
     .sidebar.open {
@@ -350,6 +388,67 @@ body {
     margin-top: 1.5rem;
 }
 
+/* Tablet Styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .sidebar {
+        width: 240px;
+    }
+    
+    .main-content {
+        margin-right: 240px !important;
+    }
+    
+    .card {
+        padding: 18px;
+    }
+    
+    .table {
+        font-size: 13px;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 1025px) {
+    .sidebar {
+        width: 256px;
+    }
+    
+    .main-content {
+        margin-right: 256px !important;
+    }
+}
+
+/* Large Desktop Styles */
+@media (min-width: 1440px) {
+    .main-content {
+        padding: 2rem !important;
+    }
+    
+    .card {
+        padding: 24px;
+    }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 480px) {
+    .sidebar {
+        width: 100%;
+    }
+    
+    .main-content {
+        padding: 0.75rem !important;
+    }
+    
+    .card {
+        padding: 12px;
+    }
+    
+    .modal-content {
+        width: 98%;
+        padding: 15px;
+    }
+}
+
 /* Touch friendly */
 @media (max-width: 768px) {
     button,
@@ -377,19 +476,20 @@ body {
     }
     
     /* Sidebar overlay */
-    .sidebar::before {
-        content: '';
+    .sidebar-overlay {
+        display: none;
         position: fixed;
         left: 0;
         top: 0;
         width: 100%;
         height: 100%;
         background: rgba(0,0,0,0.5);
-        z-index: -1;
+        z-index: 49;
     }
     
-    .sidebar.open::before {
-        z-index: 49;
+    .sidebar.open ~ .sidebar-overlay,
+    body.sidebar-open .sidebar-overlay {
+        display: block;
     }
     
     /* Table scroll on mobile */

@@ -5,15 +5,16 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.9.0/firebase
 import { getStorage } from 'https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js';
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js';
 
-// إعدادات Firebase - متجر الخديوي
-// تم تحديث الإعدادات لتطابق متجر الخديوي
+// إعدادات Firebase - لوحة التحكم
+// تم تحديث الإعدادات للمشروع الجديد
 const firebaseConfig = {
-    apiKey: "AIzaSyBBo0T68WHTINwU8VET_Zm1Nc6eLGSd1u0",
-    authDomain: "hibr-2e6f7.firebaseapp.com",
-    projectId: "hibr-2e6f7",
-    storageBucket: "hibr-2e6f7.firebasestorage.app",
-    messagingSenderId: "38236776445",
-    appId: "1:38236776445:web:94d5c7112933a6084fdb94"
+    apiKey: "AIzaSyAWkruoIMbTxD-5DHCpspPY8p2TtZLLmLM",
+    authDomain: "dashboard-27bc8.firebaseapp.com",
+    projectId: "dashboard-27bc8",
+    storageBucket: "dashboard-27bc8.firebasestorage.app",
+    messagingSenderId: "707339591256",
+    appId: "1:707339591256:web:dcc2649182e97249a2742d",
+    measurementId: "G-K8FNNYH4S1"
 };
 
 // Initialize Firebase
@@ -23,20 +24,12 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 
 // Initialize Analytics (optional - only in browser environment)
-// تم تعطيل Analytics مؤقتاً لتجنب أخطاء 403 PERMISSION_DENIED
-// لتفعيله: تأكد من تفعيل Google Analytics في Firebase Console
 let analytics = null;
 if (typeof window !== 'undefined') {
     try {
-        // تحقق من وجود measurementId قبل تهيئة Analytics
-        if (firebaseConfig.measurementId) {
-            analytics = getAnalytics(app);
-        } else {
-            console.log('Analytics skipped: measurementId not found');
-        }
+        analytics = getAnalytics(app);
     } catch (error) {
-        console.log('Analytics initialization skipped:', error.message);
-        // لا نرمي الخطأ - Analytics اختياري
+        console.log('Analytics initialization skipped:', error);
     }
 }
 export { analytics };

@@ -101,10 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorMessage = 'البريد الإلكتروني غير صحيح';
             } else if (error.code === 'auth/too-many-requests') {
                 errorMessage = 'تم تجاوز عدد المحاولات. حاول مرة أخرى لاحقاً';
-            } else if (error.code === 'auth/operation-not-allowed') {
-                errorMessage = 'طريقة تسجيل الدخول غير مفعّلة. يرجى تفعيل Email/Password في Firebase Console > Authentication > Sign-in method';
-            } else if (error.code === 'auth/invalid-credential') {
-                errorMessage = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
             } else if (error.message) {
                 errorMessage = error.message;
             } else if (error.code) {

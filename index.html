@@ -39,12 +39,20 @@
 
     <!-- Dashboard -->
     <div id="dashboardPage" class="hidden">
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <!-- Sidebar Overlay (Mobile) -->
+        <div class="sidebar-overlay" onclick="toggleMobileMenu()"></div>
+        
         <!-- Sidebar -->
-        <div class="fixed right-0 top-0 h-full w-64 bg-gray-800 text-white shadow-lg z-50">
-            <div class="p-6 border-b border-gray-700">
+        <div id="sidebar" class="fixed right-0 top-0 h-full w-64 bg-gray-800 text-white shadow-lg z-50 sidebar">
+            <div class="p-6 border-b border-gray-700 sticky top-0 bg-gray-800 z-10">
                 <h2 class="text-2xl font-bold"><i class="fas fa-store ml-2"></i>لوحة التحكم</h2>
             </div>
-            <nav class="mt-6">
+            <nav class="mt-6 flex-1">
                 <a href="#" data-page="dashboard" class="nav-item active">
                     <i class="fas fa-home ml-3"></i>الصفحة الرئيسية
                 </a>
@@ -82,7 +90,7 @@
                     <i class="fas fa-cog ml-3"></i>الإعدادات
                 </a>
             </nav>
-            <div class="absolute bottom-0 w-full p-4 border-t border-gray-700">
+            <div class="sticky bottom-0 w-full p-4 border-t border-gray-700 bg-gray-800">
                 <button id="logoutBtn" class="w-full bg-red-600 py-2 rounded-lg hover:bg-red-700 transition">
                     <i class="fas fa-sign-out-alt ml-2"></i>تسجيل الخروج
                 </button>
@@ -90,7 +98,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="mr-64 p-8">
+        <div class="mr-64 p-8 main-content">
             <!-- Header -->
             <div class="bg-white rounded-lg shadow-md p-6 mb-6">
                 <div class="flex justify-between items-center">
@@ -114,6 +122,54 @@
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/dashboard.js"></script>
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const body = document.body;
+            sidebar.classList.toggle('open');
+            body.classList.toggle('sidebar-open');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && 
+                    !menuBtn.contains(event.target) && 
+                    !overlay.contains(event.target)) {
+                    sidebar.classList.remove('open');
+                    document.body.classList.remove('sidebar-open');
+                }
+            }
+        });
+        
+        // Close mobile menu when clicking nav item
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        const sidebar = document.getElementById('sidebar');
+                        sidebar.classList.remove('open');
+                        document.body.classList.remove('sidebar-open');
+                    }
+                });
+            });
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.remove('open');
+                document.body.classList.remove('sidebar-open');
+            }
+        });
+    </script>
 </body>
 </html>
 
